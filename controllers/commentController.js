@@ -27,3 +27,61 @@ exports.createComment = async (req, res) => {
     })
 
 }
+
+exports.getSingleComment      = async (req,res) =>{
+
+    const { id } = req.params
+
+    
+
+    const singleComment = await Comentarios.findById(id)
+
+    res.json({
+        msg:"Se ha obtenido el comment unico",
+        data: singleComment
+    })
+}
+
+exports.editComment     = async (req,res) => {
+
+    const { name, description} = req.body
+
+    
+    const { id } = req.params
+    console.log(id)
+    await Comentarios.findByIdAndUpdate(
+        id,
+        {name, description},
+        
+        )
+
+		res.json({
+            msg:"Se ha hecho el edit"
+           
+        })
+
+		
+
+}
+
+
+exports.deleteComment = async (req,res) => {
+
+    const { id } = req.params
+
+    try{
+
+        const deletedComment = await Comentarios.findByIdAndRemove(id)
+
+        res.json({
+            msg:"Se ha eliminado este comentario",
+            data: deletedComment
+        })
+
+    } catch (error) {
+
+        console.log(error)
+
+        
+    }
+}
